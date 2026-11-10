@@ -26,8 +26,8 @@ import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-cop
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://fuwari.vercel.app/",
-	base: "/",
+	site: "https://oenu.kdns.fr/",
+	base: "/", // 博客当前占根路径；未来若迁到 /blog/ 等子路径，只改这一行，内部链接由 url() 基于 BASE_URL 自动加前缀
 	trailingSlash: "always",
 	integrations: [
 		tailwind({
