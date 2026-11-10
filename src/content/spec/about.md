@@ -1,9 +1,7 @@
-# About
-This is the demo site for [Fuwari](https://github.com/saicaca/fuwari).
+你好，我是 oenu。
 
-::github{repo="saicaca/fuwari"}
+这里是我的数字自留地，主要记录一些代码折腾心得、生活碎片，以及看淡一切后的碎碎念。
 
-> ### Sources of images used in this site
-> - [Unsplash](https://unsplash.com/)
-> - [星と少女](https://www.pixiv.net/artworks/108916539) by [Stella](https://www.pixiv.net/users/93273965)
-> - [Rabbit - v1.4 Showcase](https://civitai.com/posts/586908) by [Rabbit_YourMajesty](https://civitai.com/user/Rabbit_YourMajesty)
+比起宏大的叙事，我更关心今天喝的茶是否顺口，以及哪一行代码又莫名其妙报了错。
+
+感谢你的光临，随便逛逛吧。

@@ -3,6 +3,7 @@ import type { AUTO_MODE, DARK_MODE, LIGHT_MODE } from "@constants/constants";
 export type SiteConfig = {
 	title: string;
 	subtitle: string;
+	showPoweredBy?: boolean; // 页脚是否显示 "Powered by"，未设置或 false 时隐藏
 
 	lang:
 		| "en"
