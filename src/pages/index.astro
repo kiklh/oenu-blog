@@ -1,0 +1,21 @@
+---
+// 根路径已不再承载博客正文：博客整体迁到 /blog/。
+// 生产环境由 public/_redirects 的 302 处理，本页只作为 dev / 直连 index.html 时的兜底。
+import { url } from "@utils/url-utils";
+
+const target = url("/blog/");
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="refresh" content={`0; url=${target}`} />
+		<link rel="canonical" href={target} />
+		<meta name="robots" content="noindex" />
+		<title>正在前往博客…</title>
+	</head>
+	<body>
+		<p>正在前往 <a href={target}>博客</a>…</p>
+	</body>
+</html>

@@ -1,0 +1,8 @@
+# Cloudflare Workers 静态资源重定向规则
+# 博客模块已迁到 /blog/，以下规则保证旧链接与根路径可用。
+# 注意：精确路径规则要排在通配规则之前，否则 Workers 会提示性能问题。
+
+/           /blog/                302
+/archive    /blog/archive/        301
+/archive/   /blog/archive/        301
+/posts/*    /blog/posts/:splat    301

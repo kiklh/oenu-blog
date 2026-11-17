@@ -100,7 +100,10 @@ export default defineConfig({
 			}
 		}),
         svelte(),
-		sitemap(),
+		// 根路径是一个跳转页（/ → /blog/），不应当出现在 sitemap 里
+		sitemap({
+			filter: (page) => page !== "https://oenu.kdns.fr/",
+		}),
 	],
 	markdown: {
 		remarkPlugins: [
