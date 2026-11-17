@@ -103,3 +103,23 @@ export type BlogPostData = {
 export type ExpressiveCodeConfig = {
 	theme: string;
 };
+
+/** 评论/讨论区配置。当前实现为 giscus（读写 GitHub Discussions）。 */
+export type CommentConfig = {
+	enable: boolean;
+	provider: "giscus";
+	/** GitHub 仓库，形如 "owner/repo"，必须是 public 且已启用 Discussions */
+	repo: `${string}/${string}`;
+	repoId: string;
+	category: string;
+	categoryId: string;
+	/** 讨论与文章的映射方式；pathname 最稳，但启用后不要再改文章路径 */
+	mapping: "pathname" | "url" | "title" | "og:title";
+	/** 严格匹配：找不到对应 discussion 时不自动新建 */
+	strict: boolean;
+	reactionsEnabled: boolean;
+	inputPosition: "top" | "bottom";
+	lang: string;
+	/** 加载失败时的兜底链接 */
+	discussionsUrl?: string;
+};

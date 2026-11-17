@@ -1,4 +1,5 @@
 import type {
+	CommentConfig,
 	ExpressiveCodeConfig,
 	LicenseConfig,
 	NavBarConfig,
@@ -71,4 +72,23 @@ export const expressiveCodeConfig: ExpressiveCodeConfig = {
 	// Note: Some styles (such as background color) are being overridden, see the astro.config.mjs file.
 	// Please select a dark theme, as this blog theme currently only supports dark background color
 	theme: "github-dark",
+};
+
+/**
+ * 讨论区：读写 GitHub Discussions（giscus）。
+ * 这些 id 是公开值（会出现在页面 HTML 里），不是密钥，放在这里无需环境变量。
+ */
+export const commentConfig: CommentConfig = {
+	enable: true,
+	provider: "giscus",
+	repo: "kiklh/giscus",
+	repoId: "R_kgDOVxz8ZA",
+	category: "Comments",
+	categoryId: "DIC_kwDOVxz8ZM4DLWJc",
+	mapping: "pathname",
+	strict: false,
+	reactionsEnabled: true,
+	inputPosition: "top",
+	lang: "zh-CN",
+	discussionsUrl: "https://github.com/kiklh/giscus/discussions",
 };
