@@ -1,0 +1,29 @@
+---
+import { Icon } from "astro-icon/components";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { url } from "@utils/url-utils";
+---
+
+<MainGridLayout title="页面不存在" description="这个页面走丢了">
+    <Fragment slot="head">
+        <meta name="robots" content="noindex" />
+    </Fragment>
+
+    <div class="card-base px-9 py-12 relative w-full flex flex-col items-center text-center onload-animation">
+        <div class="text-[var(--primary)] mb-3">
+            <Icon name="material-symbols:explore-off-rounded" class="text-[3rem]"></Icon>
+        </div>
+        <div class="font-bold text-2xl mb-2 text-90">404 · 这里什么都没有</div>
+        <div class="text-75 text-sm mb-7">
+            页面可能已经搬到别处，或者这个链接从一开始就不对。
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+            <a href={url("/blog/")} class="btn-regular rounded-lg h-10 px-5 flex items-center font-bold text-sm">
+                回到博客
+            </a>
+            <a href={url("/community/")} class="btn-plain rounded-lg h-10 px-5 flex items-center font-bold text-sm">
+                去社区问问
+            </a>
+        </div>
+    </div>
+</MainGridLayout>

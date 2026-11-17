@@ -2,9 +2,9 @@ name: Build and Check
 
 on:
   push:
-    branches: [ main ] # Adjust branches as needed
+    branches: [ master ] # 仓库实际分支为 master，原配置写的是 main 导致 CI 从未触发
   pull_request:
-    branches: [ main ] # Adjust branches as needed
+    branches: [ master ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
