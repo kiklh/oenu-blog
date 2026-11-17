@@ -12,7 +12,9 @@ import { onMount } from "svelte";
 import type { LIGHT_DARK_MODE } from "@/types/config.ts";
 
 const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE, AUTO_MODE];
-let mode: LIGHT_DARK_MODE = $state(AUTO_MODE);
+// 不用 $state：本组件无 props，进入 runes 模式会让 props 类型变成 Record<string, never>，
+// 导致 Astro 的 client:only 指令被当成未知 prop 而报 ts(2322)。
+let mode: LIGHT_DARK_MODE = AUTO_MODE;
 
 onMount(() => {
 	mode = getStoredTheme();
