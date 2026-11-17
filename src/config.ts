@@ -41,13 +41,10 @@ export const siteConfig: SiteConfig = {
 
 export const navBarConfig: NavBarConfig = {
 	links: [
-		{ name: "首页", url: "/" },
-		{ name: "归档", url: "/archive/" },
+		// 博客与社区是两个独立模块，match 决定子页面（文章、归档、分区等）是否保持高亮
+		{ name: "博客", url: "/blog/", match: "/blog" },
+		{ name: "社区", url: "/community/", match: "/community" },
 		{ name: "关于", url: "/about/" },
-		{
-			name: "GitHub",
-			url: "#", // 仓库建好前先占位
-		},
 	],
 };
 

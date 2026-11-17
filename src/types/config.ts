@@ -55,6 +55,8 @@ export type NavBarLink = {
 	name: string;
 	url: string;
 	external?: boolean;
+	/** 用于计算「当前所在区域」高亮的前缀，例如博客模块为 "/blog" */
+	match?: string;
 };
 
 export type NavBarConfig = {

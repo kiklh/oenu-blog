@@ -5,18 +5,28 @@ import { url } from "../../utils/url-utils";
 
 interface Props {
 	links: NavBarLink[];
+	/** 当前激活链接的 url 集合，由 Navbar 统一计算后传入，避免两处判断不一致 */
+	activeUrls?: string[];
 }
 
-const links = Astro.props.links;
+const { links, activeUrls = [] } = Astro.props;
+const isActive = (link: NavBarLink) =>
+	!link.external && activeUrls.includes(link.url);
 ---
 <div id="nav-menu-panel" class:list={["float-panel float-panel-closed absolute transition-all fixed right-4 px-2 py-2"]}>
-    {links.map((link) => (
-        <a href={link.external ? link.url : url(link.url)} class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
-            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
-        "
+    {links.map((link) => {
+        const active = isActive(link);
+        return <a href={link.external ? link.url : url(link.url)}
+           class:list={["group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8",
+               "hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition",
+               { "nav-link-active": active }]}
            target={link.external ? "_blank" : null}
+           rel={link.external ? "noopener noreferrer" : null}
+           data-nav-link={link.external ? null : "true"}
+           data-match={!link.external && link.match ? url(link.match) : null}
+           aria-current={active ? "page" : null}
         >
-            <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]">
+            <div class:list={["transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]", { "text-[var(--primary)]": active }]}>
                 {link.name}
             </div>
             {!link.external && <Icon name="material-symbols:chevron-right-rounded"
@@ -27,6 +37,6 @@ const links = Astro.props.links;
                   class="transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1"
             >
             </Icon>}
-        </a>
-    ))}
+        </a>;
+    })}
 </div>
