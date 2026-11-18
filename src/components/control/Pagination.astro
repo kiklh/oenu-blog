@@ -45,9 +45,14 @@ if (r < page.lastPage - 2) pages.push(HIDDEN);
 if (r === page.lastPage - 2) pages.push(page.lastPage - 1);
 if (r < page.lastPage) pages.push(page.lastPage);
 
+// 分页基准：Page.url.first 在第 1 页时为 undefined，此时退回 current。
+// 不能靠正则剥掉末段数字——标签 slug 可能以数字结尾（vue3 → 会被削成 vue）。
+const basePath = page.url.first ?? page.url.current;
+const pageRoot = basePath.endsWith("/") ? basePath : `${basePath}/`;
+
 const getPageUrl = (p: number) => {
-	if (p === 1) return "/";
-	return `/${p}/`;
+	if (p === 1) return pageRoot;
+	return `${pageRoot}${p}/`;
 };
 ---
 
