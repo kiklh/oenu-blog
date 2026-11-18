@@ -103,6 +103,8 @@ const bannerOffset =
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		{/* 归档的 ?tag= / ?category= 只是前端筛选同一份内容，canonical 去掉查询串避免重复收录 */}
+		<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString()} />
 		{favicons.map(favicon => (
 			<link rel="icon"
 				  href={favicon.src.startsWith('/') ? url(favicon.src) : favicon.src}
