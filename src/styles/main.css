@@ -110,6 +110,61 @@
     .btn-regular-dark.success {
         @apply bg-[oklch(0.75_0.14_var(--hue))] dark:bg-[oklch(0.75_0.14_var(--hue))]
     }
+
+    /* 讨论区：预占高度 + 骨架屏，避免 giscus iframe 到位时卡片从 0 高度暴涨（CLS） */
+    .giscus-shell {
+        position: relative;
+        min-height: clamp(240px, 38vh, 320px);
+    }
+    [data-comments-card][data-state="ready"] .giscus-shell,
+    [data-comments-card][data-state="error"] .giscus-shell {
+        min-height: 0;
+    }
+    .giscus-skeleton {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding-top: 0.25rem;
+        transition: opacity 200ms ease;
+    }
+    [data-comments-card][data-state="ready"] .giscus-skeleton,
+    [data-comments-card][data-state="error"] .giscus-skeleton {
+        opacity: 0;
+        pointer-events: none;
+    }
+    [data-comments-card][data-state="error"] .giscus-skeleton {
+        display: none;
+    }
+    .skeleton-row {
+        display: flex;
+        gap: 0.75rem;
+    }
+    .skeleton-avatar {
+        flex-shrink: 0;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 9999px;
+        background: var(--btn-regular-bg);
+    }
+    .skeleton-lines {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding-top: 0.25rem;
+    }
+    .skeleton-line {
+        height: 0.75rem;
+        border-radius: 0.375rem;
+        background: var(--btn-regular-bg);
+        animation: skeleton-pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes skeleton-pulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+    }
 }
 
 .custom-md img, #post-cover img {

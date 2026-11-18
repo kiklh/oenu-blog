@@ -4,34 +4,57 @@ import { commentConfig } from "@/config";
 
 const cfg = commentConfig;
 
-if (cfg.enable && !cfg.repoId) {
-	console.warn("[comments] giscus 已启用但缺少 repoId，评论区将被跳过");
-}
-
+// 这里只输出标记，不含任何 <script>：
+// 挂载/懒加载/主题同步/失败兜底全部由 scripts/comments.ts 负责（由 Layout 引入一次）。
 const enabled = cfg.enable && Boolean(cfg.repoId) && Boolean(cfg.categoryId);
 ---
 
 {enabled && (
-    <div class="card-base px-6 md:px-9 py-6 relative w-full mb-4 onload-animation" data-pagefind-ignore>
+    <div
+        class="card-base px-6 md:px-9 py-6 relative w-full mb-4 onload-animation"
+        data-comments-card
+        data-state="idle"
+        data-pagefind-ignore
+    >
         <div class="flex items-center gap-2 font-bold text-lg text-90 mb-4">
             <Icon name="fa6-solid:comments" class="text-[1.1rem] text-[var(--primary)]"></Icon>
             讨论
             <span class="text-50 text-xs font-normal ml-1">由 GitHub Discussions 提供</span>
         </div>
 
-        <div
-            class="giscus"
-            data-repo={cfg.repo}
-            data-repo-id={cfg.repoId}
-            data-category={cfg.category}
-            data-category-id={cfg.categoryId}
-            data-mapping={cfg.mapping}
-            data-strict={cfg.strict ? "1" : "0"}
-            data-reactions-enabled={cfg.reactionsEnabled ? "1" : "0"}
-            data-emit-metadata="0"
-            data-input-position={cfg.inputPosition}
-            data-lang={cfg.lang}
-        >
+        <div class="giscus-shell">
+            <div class="giscus-skeleton" aria-hidden="true">
+                <div class="skeleton-row">
+                    <div class="skeleton-avatar"></div>
+                    <div class="skeleton-lines">
+                        <div class="skeleton-line" style="width: 32%"></div>
+                        <div class="skeleton-line" style="width: 78%"></div>
+                    </div>
+                </div>
+                <div class="skeleton-row">
+                    <div class="skeleton-avatar"></div>
+                    <div class="skeleton-lines">
+                        <div class="skeleton-line" style="width: 26%"></div>
+                        <div class="skeleton-line" style="width: 64%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="giscus"
+                data-comments-host
+                data-repo={cfg.repo}
+                data-repo-id={cfg.repoId}
+                data-category={cfg.category}
+                data-category-id={cfg.categoryId}
+                data-mapping={cfg.mapping}
+                data-strict={cfg.strict ? "1" : "0"}
+                data-reactions-enabled={cfg.reactionsEnabled ? "1" : "0"}
+                data-emit-metadata="0"
+                data-input-position={cfg.inputPosition}
+                data-lang={cfg.lang}
+            >
+            </div>
         </div>
 
         <noscript>
@@ -42,84 +65,26 @@ const enabled = cfg.enable && Boolean(cfg.repoId) && Boolean(cfg.categoryId);
             </p>
         </noscript>
 
-        <div class="giscus-fallback hidden">
-            <p class="text-75 text-sm">
-                评论加载失败（可能是网络无法访问 giscus.app）。可以
-                <a class="text-[var(--primary)] font-bold underline" href={cfg.discussionsUrl} target="_blank" rel="noopener noreferrer">
+        <div data-comments-fallback class="hidden">
+            <p class="text-75 text-sm leading-7">
+                评论加载超时或失败（可能是网络无法访问 giscus.app）。
+                <button
+                    type="button"
+                    data-comments-retry
+                    class="btn-plain h-7 px-3 rounded-lg text-sm font-bold align-middle"
+                >
+                    重试一次
+                </button>
+                <span class="text-30 mx-1">/</span>
+                <a
+                    class="text-[var(--primary)] font-bold underline"
+                    href={cfg.discussionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
                     在 GitHub 上查看讨论
                 </a>
-                。
             </p>
         </div>
     </div>
-)}
-
-{enabled && (
-    <script>
-        // 三个必须处理的点：
-        // 1) swup 只替换 <main>，换页后 iframe 会被移除且脚本不会重新执行 → 每次 page:view 重新挂载
-        // 2) 站点主题切换是给 <html> 加/去 .dark → 用 MutationObserver 同步给 iframe
-        // 3) 网络不通时 script.onerror 暴露兜底链接
-        const currentTheme = () =>
-            document.documentElement.classList.contains("dark") ? "dark" : "light";
-
-        const syncTheme = () => {
-            const frame = document.querySelector<HTMLIFrameElement>("iframe.giscus-frame");
-            frame?.contentWindow?.postMessage(
-                { giscus: { setConfig: { theme: currentTheme() } } },
-                "https://giscus.app",
-            );
-        };
-
-        const mountGiscus = () => {
-            const host = document.querySelector<HTMLElement>(".giscus");
-            if (!host) return;
-
-            // 清掉上一次的 iframe / script，避免重复插入
-            host.innerHTML = "";
-
-            const script = document.createElement("script");
-            script.src = "https://giscus.app/client.js";
-            script.crossOrigin = "anonymous";
-            script.async = true;
-
-            const data = host.dataset;
-            const attributes: Record<string, string | undefined> = {
-                repo: data.repo,
-                "repo-id": data.repoId,
-                category: data.category,
-                "category-id": data.categoryId,
-                mapping: data.mapping,
-                strict: data.strict,
-                "reactions-enabled": data.reactionsEnabled,
-                "emit-metadata": data.emitMetadata,
-                "input-position": data.inputPosition,
-                lang: data.lang,
-                theme: currentTheme(),
-            };
-
-            for (const [key, value] of Object.entries(attributes)) {
-                if (value !== undefined) script.dataset[key.replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = value;
-            }
-
-            script.onerror = () => {
-                document.querySelector<HTMLElement>(".giscus-fallback")?.classList.remove("hidden");
-                host.classList.add("hidden");
-            };
-
-            host.appendChild(script);
-        };
-
-        mountGiscus();
-
-        const swup = (window as Window & { swup?: { hooks: { on: (event: string, cb: () => void) => void } } }).swup;
-        if (swup) {
-            swup.hooks.on("page:view", mountGiscus);
-        }
-
-        new MutationObserver(syncTheme).observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ["class"],
-        });
-    </script>
 )}
