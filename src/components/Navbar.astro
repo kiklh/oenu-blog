@@ -37,7 +37,7 @@ const isActive = (link: NavBarLink): boolean => {
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
     <div class:list={[
         className,
-        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}>
+        "nav-shell card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}>
         <a href={url('/blog/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-5 font-bold active:scale-95">
             <div class="flex flex-row text-[var(--primary)] items-center text-md">
                 <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 mr-2" />
@@ -45,21 +45,25 @@ const isActive = (link: NavBarLink): boolean => {
             </div>
         </a>
         <div class="hidden md:flex">
-            {links.map((l) => {
-                const active = isActive(l);
-                return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
-                          rel={l.external ? "noopener noreferrer" : null}
-                          data-nav-link={l.external ? null : "true"}
-                          data-match={!l.external && l.match ? url(l.match) : null}
-                          aria-current={active ? "page" : null}
-                          class:list={["btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95 nav-link", { "nav-link-active": active }]}
-                >
-                    <div class="flex items-center">
-                        {l.name}
-                        {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
-                    </div>
-                </a>;
-            })}
+            <nav class="flex items-center gap-1 p-1 rounded-full
+                border border-[var(--border-subtle)] bg-[var(--surface-inset)]">
+                {links.map((l) => {
+                    const active = isActive(l);
+                    return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
+                              rel={l.external ? "noopener noreferrer" : null}
+                              data-nav-link={l.external ? null : "true"}
+                              data-match={!l.external && l.match ? url(l.match) : null}
+                              aria-current={active ? "page" : null}
+                              class:list={["h-10 px-4 rounded-full font-bold flex items-center transition-colors nav-link",
+                                  { "nav-link-active": active }]}
+                    >
+                        <div class="flex items-center">
+                            {l.name}
+                            {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
+                        </div>
+                    </a>;
+                })}
+            </nav>
         </div>
         <div class="flex">
             <!--<SearchPanel client:load>-->
@@ -150,13 +154,47 @@ syncNavActive();
 if (window.swup) {
     window.swup.hooks.on("page:view", syncNavActive);
 }
+
+// 顶栏滚动态：只在跨越阈值时写一次 class，避免滚动中反复操作 DOM
+let navScrolled: boolean | null = null;
+function syncNavScrolled() {
+    const el = document.getElementById("navbar");
+    if (!el) return;
+    const scrolled = window.scrollY > 8;
+    if (scrolled === navScrolled) return;
+    navScrolled = scrolled;
+    el.classList.toggle("is-scrolled", scrolled);
+}
+syncNavScrolled();
+window.addEventListener("scroll", syncNavScrolled, { passive: true });
 </script>
 
 <style is:global>
-    /* 当前区域高亮：桌面导航与移动端面板共用，颜色统一取主题主色 */
-    #navbar a[data-nav-link].nav-link-active,
+    /* 顶栏：半透明 + 模糊，滚动后加深阴影；background 用 color-mix 保留主题底色 */
+    #navbar .nav-shell {
+        background: color-mix(in oklch, var(--card-bg) 88%, transparent);
+        backdrop-filter: blur(12px);
+        transition: box-shadow var(--dur-2) var(--ease-standard),
+            border-color var(--dur-2) var(--ease-standard);
+    }
+    #navbar.is-scrolled .nav-shell {
+        border-color: var(--border-strong);
+        box-shadow: var(--shadow-2);
+    }
+
+    /* 当前区域高亮：桌面胶囊与移动端面板共用同一套状态 */
+    #navbar a[data-nav-link].nav-link-active {
+        color: var(--primary);
+        background: var(--card-bg);
+        box-shadow: var(--shadow-1);
+    }
     #nav-menu-panel a[data-nav-link].nav-link-active {
         color: var(--primary);
+        background: var(--btn-plain-bg-hover);
+    }
+    #navbar a[data-nav-link]:not(.nav-link-active):hover {
+        color: var(--primary);
+        background: var(--surface-hover);
     }
 </style>
 
