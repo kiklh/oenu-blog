@@ -52,18 +52,18 @@ const jsonLd = {
             {}
         ]}>
             <!-- word count and reading time -->
-            <div class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation">
+            <div class="flex flex-row flex-wrap items-center gap-4 mb-3 transition onload-animation">
                 <div class="flex flex-row items-center">
-                    <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
+                    <div class="transition h-6 w-6 rounded-[var(--radius-sm)] bg-[var(--surface-inset)] text-[var(--text-3)] flex items-center justify-center mr-2">
                         <Icon name="material-symbols:notes-rounded"></Icon>
                     </div>
-                    <div class="text-sm">{remarkPluginFrontmatter.words} {" " + i18n(I18nKey.wordsCount)}</div>
+                    <div class="text-sm text-50 tabular-nums">{remarkPluginFrontmatter.words} {" " + i18n(I18nKey.wordsCount)}</div>
                 </div>
                 <div class="flex flex-row items-center">
-                    <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
+                    <div class="transition h-6 w-6 rounded-[var(--radius-sm)] bg-[var(--surface-inset)] text-[var(--text-3)] flex items-center justify-center mr-2">
                         <Icon name="material-symbols:schedule-outline-rounded"></Icon>
                     </div>
-                    <div class="text-sm">
+                    <div class="text-sm text-50 tabular-nums">
                         {remarkPluginFrontmatter.minutes} {" " + i18n(remarkPluginFrontmatter.minutes === 1 ? I18nKey.minuteCount : I18nKey.minutesCount)}
                     </div>
                 </div>
@@ -73,10 +73,11 @@ const jsonLd = {
             <div class="relative onload-animation">
                 <div
                     data-pagefind-body data-pagefind-weight="10" data-pagefind-meta="title"
-                    class="transition w-full block font-bold mb-3
-                    text-3xl md:text-[2.25rem]/[2.75rem]
-                    text-black/90 dark:text-white/90
-                    md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
+                    class="transition w-full block font-bold mb-3 text-balance
+                    text-[1.9rem] md:text-[2.4rem] leading-[1.25] tracking-[-0.02em]
+                    text-90
+                    md:before:w-1 before:h-5 before:rounded-full
+                    before:bg-gradient-to-b before:from-[var(--primary)] before:to-[oklch(0.72_0.16_var(--hue))]
                     before:absolute before:top-[0.75rem] before:left-[-1.125rem]
                 ">
                     {entry.data.title}
