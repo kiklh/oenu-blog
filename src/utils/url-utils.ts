@@ -16,9 +16,27 @@ export function getPostUrlBySlug(slug: string): string {
 	return url(`/blog/posts/${slug}/`);
 }
 
+/**
+ * 把标签名转成 URL 片段。
+ * 保留中日韩字符（由 encodeURI 负责百分号编码），只清理会破坏路径的字符。
+ */
+export function tagToSlug(tag: string): string {
+	return tag
+		.trim()
+		.toLowerCase()
+		.replace(/[\s_]+/g, "-")
+		.replace(/[\\/#?%&+=~`^|{}[\]<>"']/g, "")
+		.replace(/-+/g, "-")
+		.replace(/^-|-$/g, "");
+}
+
 export function getTagUrl(tag: string): string {
-	if (!tag) return url("/blog/archive/");
-	return url(`/blog/archive/?tag=${encodeURIComponent(tag.trim())}`);
+	if (!tag) return url("/blog/tags/");
+	return url(`/blog/tags/${encodeURI(tagToSlug(tag))}/`);
+}
+
+export function getTagListUrl(): string {
+	return url("/blog/tags/");
 }
 
 export function getCategoryUrl(category: string | null): string {

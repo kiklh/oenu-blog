@@ -20,8 +20,12 @@ const len = page.data.length;
 ---
 
 <MainGridLayout>
-    <!-- 归档不再占一级导航，作为博客模块内部的入口放在列表顶部 -->
-    <div class="flex justify-end mb-3 onload-animation">
+    <!-- 归档与标签不再占一级导航，作为博客模块内部的入口放在列表顶部 -->
+    <div class="flex justify-end gap-2 mb-3 onload-animation">
+        <a href={url("/blog/tags/")} class="btn-plain rounded-lg h-9 px-3 flex items-center gap-1.5 text-sm font-bold">
+            <Icon name="material-symbols:tag-rounded" class="text-[1.15rem]"></Icon>
+            标签
+        </a>
         <a href={url("/blog/archive/")} class="btn-plain rounded-lg h-9 px-3 flex items-center gap-1.5 text-sm font-bold">
             <Icon name="material-symbols:archive-outline-rounded" class="text-[1.15rem]"></Icon>
             归档

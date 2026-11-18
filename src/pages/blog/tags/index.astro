@@ -1,0 +1,55 @@
+---
+import { Icon } from "astro-icon/components";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getTagIndex } from "@utils/content-utils";
+import { getTagUrl } from "@utils/url-utils";
+
+const tags = await getTagIndex();
+const postCount = tags.reduce((sum, tag) => sum + tag.count, 0);
+const maxCount = tags.reduce((max, tag) => Math.max(max, tag.count), 1);
+---
+
+<MainGridLayout title="标签" description="按标签浏览全部文章">
+
+    <div class="card-base px-6 md:px-9 py-8 mb-4 onload-animation">
+        <div class="flex items-center gap-3 mb-2">
+            <Icon name="material-symbols:tag-rounded" class="text-[2rem] text-[var(--primary)]"></Icon>
+            <h1 class="text-2xl font-bold text-90">标签</h1>
+        </div>
+        <p class="text-75 text-sm leading-7">
+            共 {tags.length} 个标签，覆盖 {postCount} 次引用。点进去就是该标签下的全部文章。
+        </p>
+    </div>
+
+    {tags.length === 0 ? (
+        <div class="card-base px-6 md:px-9 py-10 text-center text-50 text-sm onload-animation">
+            还没有任何标签。
+        </div>
+    ) : (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {tags.map((tag, index) => (
+                <a
+                    href={getTagUrl(tag.name)}
+                    class="card-base group px-5 py-4 flex items-center justify-between gap-3 onload-animation
+                        transition hover:bg-[var(--btn-plain-bg-hover)] active:scale-[0.995]"
+                    style={`animation-delay: calc(var(--content-delay) + ${index * 30}ms);`}
+                >
+                    <div class="min-w-0">
+                        <div class="font-bold text-90 truncate transition group-hover:text-[var(--primary)]">
+                            #{tag.name}
+                        </div>
+                        <div class="mt-2 h-1 rounded-full bg-[var(--btn-regular-bg)] overflow-hidden">
+                            <div
+                                class="h-full rounded-full bg-[var(--primary)] opacity-60 transition-all"
+                                style={`width: ${Math.round((tag.count / maxCount) * 100)}%`}
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="shrink-0 text-sm font-bold text-50 tabular-nums">
+                        {tag.count}
+                    </div>
+                </a>
+            ))}
+        </div>
+    )}
+</MainGridLayout>

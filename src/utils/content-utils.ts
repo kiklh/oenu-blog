@@ -1,7 +1,7 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
-import { getCategoryUrl } from "@utils/url-utils.ts";
+import { getCategoryUrl, tagToSlug } from "@utils/url-utils.ts";
 
 // // Retrieve posts and sort them by publication date
 async function getRawSortedPosts() {
@@ -77,6 +77,40 @@ export type Category = {
 	count: number;
 	url: string;
 };
+
+export type TagIndexEntry = {
+	name: string;
+	slug: string;
+	count: number;
+};
+
+/**
+ * 标签索引：在 getTagList 基础上补 slug，供 /blog/tags/ 与 /blog/tags/[tag]/ 生成静态路由。
+ * slug 冲突（例如 "C#" 与 "C" 归一后相同）会让构建直接失败，
+ * 而不是静默生成互相覆盖的页面。
+ */
+export async function getTagIndex(): Promise<TagIndexEntry[]> {
+	const tags = await getTagList();
+	const seen = new Map<string, string>();
+	const result: TagIndexEntry[] = [];
+
+	for (const tag of tags) {
+		const slug = tagToSlug(tag.name);
+		if (!slug) continue;
+
+		const existing = seen.get(slug);
+		if (existing !== undefined && existing !== tag.name) {
+			throw new Error(
+				`标签 slug 冲突：「${existing}」与「${tag.name}」都会生成 "${slug}"，请调整标签名或 tagToSlug 规则`,
+			);
+		}
+
+		seen.set(slug, tag.name);
+		result.push({ name: tag.name, slug, count: tag.count });
+	}
+
+	return result;
+}
 
 export async function getCategoryList(): Promise<Category[]> {
 	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
