@@ -9,7 +9,21 @@ rainbow-light = linear-gradient(to right, oklch(0.80 0.10 0), oklch(0.80 0.10 30
 rainbow-dark = linear-gradient(to right, oklch(0.70 0.10 0), oklch(0.70 0.10 30), oklch(0.70 0.10 60), oklch(0.70 0.10 90), oklch(0.70 0.10 120), oklch(0.70 0.10 150), oklch(0.70 0.10 180), oklch(0.70 0.10 210), oklch(0.70 0.10 240), oklch(0.70 0.10 270), oklch(0.70 0.10 300), oklch(0.70 0.10 330), oklch(0.70 0.10 360))
 
 :root
-  --radius-large 1rem
+  /* 圆角分级：--radius-large 保留为别名，避免 20+ 处引用一次性失效 */
+  --radius-xs 0.5rem
+  --radius-sm 0.625rem
+  --radius-md 0.75rem
+  --radius-lg 1rem
+  --radius-xl 1.375rem
+  --radius-large var(--radius-lg)
+
+  /* 动效：统一时长与曲线，组件里不要再写裸 duration-* */
+  --dur-1 120ms
+  --dur-2 200ms
+  --dur-3 320ms
+  --ease-standard cubic-bezier(0.4, 0, 0.2, 1)
+  --ease-out cubic-bezier(0.22, 1, 0.36, 1)
+
   --content-delay 150ms
 
 /* An util to define variables that vary with light and dark mode */
@@ -95,4 +109,32 @@ define({
   --toc-btn-active: oklch(0.90 0.015 var(--hue)) oklch(0.25 0.02 var(--hue))
   --toc-width: calc((100vw - var(--page-width)) / 2 - 1rem)
   --toc-item-active: oklch(0.70 0.13 var(--hue)) oklch(0.35 0.07 var(--hue))
+
+  /* 语义表面：raised 浮起、inset 凹陷、hover 悬停底 */
+  --surface-raised: oklch(0.985 0.006 var(--hue)) oklch(0.275 0.018 var(--hue))
+  --surface-inset: oklch(0.935 0.012 var(--hue)) oklch(0.205 0.016 var(--hue))
+  --surface-hover: oklch(0.96 0.022 var(--hue)) oklch(0.30 0.032 var(--hue))
+
+  /* 边框：替代散落的 black/10、white/15 */
+  --border-subtle: black(0.09) white(0.09)
+  --border-strong: black(0.15) white(0.16)
+  --border-accent: unquote("oklch(0.70 0.14 var(--hue) / 0.45)") unquote("oklch(0.75 0.14 var(--hue) / 0.45)")
+
+  /* 文本四级：供 .text-90/75/50/30 使用 */
+  --text-1: oklch(0.25 0.02 var(--hue)) oklch(0.97 0.008 var(--hue))
+  --text-2: oklch(0.36 0.02 var(--hue)) oklch(0.86 0.010 var(--hue))
+  --text-3: oklch(0.50 0.015 var(--hue)) oklch(0.70 0.010 var(--hue))
+  --text-4: oklch(0.62 0.012 var(--hue)) oklch(0.55 0.010 var(--hue))
 })
+
+/* 阴影必须写在 :root 独立块里：define() 用 length(value) > 1 判断亮暗双值，
+   含逗号的多值阴影会被 Stylus 当成列表，从而误判成「亮色 + 暗色」两个值。 */
+:root
+  --shadow-1 0 1px 2px black(0.05), 0 1px 3px black(0.04)
+  --shadow-2 0 6px 18px -6px black(0.10), 0 2px 6px -3px black(0.06)
+  --shadow-3 0 20px 44px -16px black(0.18)
+
+:root.dark
+  --shadow-1 inset 0 1px 0 white(0.04)
+  --shadow-2 0 8px 20px -8px black(0.50), inset 0 1px 0 white(0.05)
+  --shadow-3 0 24px 48px -20px black(0.55)

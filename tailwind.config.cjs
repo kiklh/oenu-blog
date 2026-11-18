@@ -6,7 +6,16 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Roboto", "sans-serif", ...defaultTheme.fontFamily.sans],
+        // 补中日韩回退：Roboto 不含汉字，缺失时会落到系统字体并造成字重/字面跳动
+        sans: [
+          "Roboto",
+          "-apple-system",
+          "PingFang SC",
+          "Hiragino Sans GB",
+          "Microsoft YaHei",
+          "sans-serif",
+          ...defaultTheme.fontFamily.sans,
+        ],
       },
     },
   },
