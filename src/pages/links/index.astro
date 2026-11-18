@@ -1,0 +1,101 @@
+---
+import { Icon } from "astro-icon/components";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { linksConfig } from "@/modules/links/config";
+
+const { intro, apply, sections } = linksConfig;
+const visibleSections = sections.filter((section) => section.items.length > 0);
+const total = visibleSections.reduce((sum, section) => sum + section.items.length, 0);
+---
+
+<MainGridLayout title="友链" description="常读的站点与朋友们的博客">
+
+    <div class="card-base px-6 md:px-9 py-8 mb-4 onload-animation">
+        <div class="flex items-center gap-3 mb-2">
+            <Icon name="material-symbols:link-rounded" class="text-[2rem] text-[var(--primary)]"></Icon>
+            <h1 class="text-2xl font-bold text-90">友链</h1>
+            <span class="text-sm text-50 tabular-nums">{total} 个</span>
+        </div>
+        <p class="text-75 text-sm leading-7">{intro}</p>
+    </div>
+
+    {visibleSections.map((section, sectionIndex) => (
+        <section class="mb-4 onload-animation" style={`animation-delay: calc(var(--content-delay) + ${sectionIndex * 60}ms);`}>
+            <div class="flex items-baseline justify-between gap-4 px-1 mb-3">
+                <h2 class="text-lg font-bold text-90">{section.title}</h2>
+                {section.description && (
+                    <p class="text-xs text-50 text-right">{section.description}</p>
+                )}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {section.items.map((item) => (
+                    <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="card-base group px-5 py-4 flex items-start gap-4
+                            transition hover:bg-[var(--btn-plain-bg-hover)] active:scale-[0.995]"
+                    >
+                        {item.avatar ? (
+                            <img
+                                src={item.avatar}
+                                alt=""
+                                width="44"
+                                height="44"
+                                loading="lazy"
+                                decoding="async"
+                                referrerpolicy="no-referrer"
+                                class="h-11 w-11 shrink-0 rounded-xl object-cover"
+                            />
+                        ) : (
+                            <div class="h-11 w-11 shrink-0 rounded-xl bg-[var(--btn-regular-bg)] text-[var(--primary)]
+                                flex items-center justify-center font-bold text-lg">
+                                {item.name.slice(0, 1).toUpperCase()}
+                            </div>
+                        )}
+
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center gap-2 font-bold text-90
+                                transition group-hover:text-[var(--primary)]">
+                                <span class="truncate">{item.name}</span>
+                                <Icon name="fa6-solid:arrow-up-right-from-square"
+                                      class="text-[0.7rem] text-black/25 dark:text-white/25 shrink-0"></Icon>
+                            </div>
+                            <p class="text-sm text-75 leading-6 mt-1">{item.description}</p>
+                            {item.tags && item.tags.length > 0 && (
+                                <div class="flex flex-wrap gap-1.5 mt-2">
+                                    {item.tags.map((tag) => (
+                                        <span class="text-[0.7rem] px-2 py-0.5 rounded-full
+                                            bg-[var(--btn-regular-bg)] text-50">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </a>
+                ))}
+            </div>
+        </section>
+    ))}
+
+    <div class="card-base px-6 md:px-9 py-7 onload-animation" style="animation-delay: calc(var(--content-delay) + 180ms);">
+        <h2 class="text-lg font-bold text-90 mb-2">{apply.title}</h2>
+        <p class="text-sm text-75 leading-7 mb-3">{apply.intro}</p>
+        <ul class="text-sm text-75 leading-7 mb-4 space-y-1">
+            {apply.requirements.map((requirement) => (
+                <li class="flex gap-2">
+                    <Icon name="material-symbols:check-rounded"
+                          class="text-[1.05rem] text-[var(--primary)] shrink-0 mt-1"></Icon>
+                    <span>{requirement}</span>
+                </li>
+            ))}
+        </ul>
+        <a href={apply.cta.url} target="_blank" rel="noopener noreferrer"
+           class="btn-regular rounded-lg h-10 px-4 inline-flex items-center gap-2 text-sm font-bold">
+            {apply.cta.label}
+            <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.7rem]"></Icon>
+        </a>
+    </div>
+</MainGridLayout>
