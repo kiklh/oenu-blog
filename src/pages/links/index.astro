@@ -60,7 +60,7 @@ const total = visibleSections.reduce((sum, section) => sum + section.items.lengt
                                 transition group-hover:text-[var(--primary)]">
                                 <span class="truncate">{item.name}</span>
                                 <Icon name="fa6-solid:arrow-up-right-from-square"
-                                      class="text-[0.7rem] text-black/25 dark:text-white/25 shrink-0"></Icon>
+                                      class="text-[0.7rem] text-[var(--text-4)] shrink-0"></Icon>
                             </div>
                             <p class="text-sm text-75 leading-6 mt-1">{item.description}</p>
                             {item.tags && item.tags.length > 0 && (

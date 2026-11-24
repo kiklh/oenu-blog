@@ -1,0 +1,119 @@
+/*! 讨论区主题（奶油亮色）
+ * 与 src/styles/variables.styl 的淡黄配色同源：卡片纸 #FFFDF7、凹陷 #F3EBD3、
+ * 主色琥珀 #8F6208、亮琥珀填充 #E9B44C + 深棕字 #2B2416。
+ * 改动这里的颜色时，记得同步 cream-dark.css 与 variables.styl。
+ * 变量名沿用 giscus 内置主题（GitHub Primer）的命名，只覆盖颜色，不动结构。
+ */
+
+main {
+  /* 行内代码语法色：沿用 GitHub 的那套，评论区代码块很少，保留可读性优先 */
+  --color-prettylights-syntax-comment: #8c8168;
+  --color-prettylights-syntax-constant: #8f6208;
+  --color-prettylights-syntax-entity: #7b4b7a;
+  --color-prettylights-syntax-storage-modifier-import: #2b2416;
+  --color-prettylights-syntax-entity-tag: #3f6f68;
+  --color-prettylights-syntax-keyword: #9c4a2a;
+  --color-prettylights-syntax-string: #5c4a12;
+  --color-prettylights-syntax-variable: #8a5a1c;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #7a2418;
+  --color-prettylights-syntax-invalid-illegal-text: #fffdf7;
+  --color-prettylights-syntax-invalid-illegal-bg: #7a2418;
+  --color-prettylights-syntax-carriage-return-text: #fffdf7;
+  --color-prettylights-syntax-carriage-return-bg: #9c4a2a;
+  --color-prettylights-syntax-string-regexp: #3f6f68;
+  --color-prettylights-syntax-markup-list: #5c4a12;
+  --color-prettylights-syntax-markup-heading: #8f6208;
+  --color-prettylights-syntax-markup-italic: #2b2416;
+  --color-prettylights-syntax-markup-bold: #2b2416;
+  --color-prettylights-syntax-markup-deleted-text: #7a2418;
+  --color-prettylights-syntax-markup-deleted-bg: #fbe9e0;
+  --color-prettylights-syntax-markup-inserted-text: #33605a;
+  --color-prettylights-syntax-markup-inserted-bg: #e6efe6;
+  --color-prettylights-syntax-markup-changed-text: #8a5a1c;
+  --color-prettylights-syntax-markup-changed-bg: #f7e2b0;
+  --color-prettylights-syntax-markup-ignored-text: #f3ebd3;
+  --color-prettylights-syntax-markup-ignored-bg: #8f6208;
+  --color-prettylights-syntax-meta-diff-range: #7b4b7a;
+  --color-prettylights-syntax-brackethighlighter-angle: #6e6349;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #a89c80;
+  --color-prettylights-syntax-constant-other-reference-link: #5c4a12;
+
+  /* 普通按钮：浅黄底 + 琥珀字，与站内 .btn-regular 一致 */
+  --color-btn-text: #4e4530;
+  --color-btn-bg: #f7efd9;
+  --color-btn-border: rgb(120 95 40 / 16%);
+  --color-btn-shadow: 0 1px 0 rgb(120 95 40 / 5%);
+  --color-btn-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 60%);
+  --color-btn-hover-bg: #f3e7c9;
+  --color-btn-hover-border: rgb(120 95 40 / 26%);
+  --color-btn-active-bg: #eaddbb;
+  --color-btn-active-border: rgb(120 95 40 / 30%);
+  --color-btn-selected-bg: #f3e7c9;
+
+  /* 主按钮（发表评论 / 登录）：亮琥珀填充 + 深棕字，不用白字（白字对比只有 2:1） */
+  --color-btn-primary-text: #2b2416;
+  --color-btn-primary-bg: #e9b44c;
+  --color-btn-primary-border: rgb(120 95 40 / 20%);
+  --color-btn-primary-shadow: 0 1px 0 rgb(120 95 40 / 10%);
+  --color-btn-primary-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 35%);
+  --color-btn-primary-hover-bg: #d89b2c;
+  --color-btn-primary-hover-border: rgb(120 95 40 / 24%);
+  --color-btn-primary-selected-bg: #c68a22;
+  --color-btn-primary-selected-shadow: inset 0 1px 0 rgb(120 95 40 / 20%);
+  --color-btn-primary-disabled-text: rgb(43 36 22 / 55%);
+  --color-btn-primary-disabled-bg: #f2dfb4;
+  --color-btn-primary-disabled-border: rgb(120 95 40 / 12%);
+
+  --color-action-list-item-default-hover-bg: rgb(120 95 40 / 10%);
+  --color-segmented-control-bg: #f3ebd3;
+  --color-segmented-control-button-bg: #fffdf7;
+  --color-segmented-control-button-selected-border: #c9b98e;
+
+  --color-fg-default: #2b2416;
+  --color-fg-muted: #6e6349;
+  --color-fg-subtle: #8c8168;
+
+  /* 画布：与文章卡片同色，iframe 才不会在卡片里露出一个白框 */
+  --color-canvas-default: #fffdf7;
+  --color-canvas-overlay: #fffdf7;
+  --color-canvas-inset: #f7efd9;
+  --color-canvas-subtle: #f7efd9;
+
+  --color-border-default: rgb(120 95 40 / 20%);
+  --color-border-muted: rgb(120 95 40 / 12%);
+  --color-neutral-muted: rgb(120 95 40 / 12%);
+
+  --color-accent-fg: #8f6208;
+  --color-accent-emphasis: #8f6208;
+  --color-accent-muted: rgb(233 180 76 / 40%);
+  --color-accent-subtle: #fbeec9;
+
+  --color-success-fg: #3f6f68;
+  --color-attention-fg: #a8720c;
+  --color-attention-muted: rgb(216 155 44 / 40%);
+  --color-attention-subtle: #faf0d2;
+  --color-danger-fg: #9c4a2a;
+  --color-danger-muted: rgb(156 74 42 / 35%);
+  --color-danger-subtle: #fbe9e0;
+
+  --color-primer-shadow-inset: inset 0 1px 0 rgb(120 95 40 / 14%);
+  --color-scale-gray-1: #f3ebd3;
+  --color-scale-blue-1: #f7e2b0;
+
+  /*! Extensions from @primer/css/alerts/flash.scss */
+  --color-social-reaction-bg-hover: var(--color-scale-gray-1);
+  --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-1);
+}
+
+main {
+  background-color: var(--color-canvas-default);
+  color: var(--color-fg-default);
+}
+
+main .pagination-loader-container {
+  background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line.svg");
+}
+
+main .gsc-loading-image {
+  background-image: url("https://github.githubassets.com/images/mona-loading-default.gif");
+}

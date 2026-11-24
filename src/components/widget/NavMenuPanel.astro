@@ -27,7 +27,7 @@ const isActive = (link: NavBarLink) =>
            data-match={!link.external && link.match ? url(link.match) : null}
            aria-current={active ? "page" : null}
         >
-            <div class:list={["transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]", { "text-[var(--primary)]": active }]}>
+            <div class:list={["transition text-[var(--text-1)] font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]", { "text-[var(--primary)]": active }]}>
                 {link.name}
             </div>
             {!link.external && <Icon name="material-symbols:chevron-right-rounded"
@@ -35,7 +35,7 @@ const isActive = (link: NavBarLink) =>
             >
             </Icon>}
             {link.external && <Icon name="fa6-solid:arrow-up-right-from-square"
-                  class="transition text-[0.75rem] text-black/25 dark:text-white/25 -translate-x-1"
+                  class="transition text-[0.75rem] text-[var(--text-4)] -translate-x-1"
             >
             </Icon>}
         </a>;

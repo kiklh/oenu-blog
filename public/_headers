@@ -1,0 +1,8 @@
+# Cloudflare Workers 静态资源响应头
+# giscus 的 iframe 运行在 https://giscus.app 上，跨域加载本站的主题 CSS 必须回
+# Access-Control-Allow-Origin，否则浏览器按同源策略直接丢弃样式（评论区会退回默认外观）。
+# 只放开 /giscus/*，不要给全站加通配 CORS。
+
+/giscus/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600

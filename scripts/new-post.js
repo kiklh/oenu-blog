@@ -56,4 +56,6 @@ lang: ''
 
 fs.writeFileSync(path.join(targetDir, fileName), content)
 
-console.log(`Post ${fullPath} created`)
+console.log(`已创建文章：${fullPath}`)
+console.log(`访问地址（构建后）：/blog/posts/${fileName.replace(fileExtensionRegex, "")}/`)
+console.log("填好 frontmatter 后跑 pnpm dev 预览。")

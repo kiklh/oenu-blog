@@ -5,6 +5,10 @@ white(a)
 black(a)
   rgba(0, 0, 0, a)
 
+/* 暖棕透明：奶油底上用纯黑透明度，阴影/描边会发灰发脏，改用色相 80 附近的暖棕 */
+warm(a)
+  rgba(120, 95, 40, a)
+
 rainbow-light = linear-gradient(to right, oklch(0.80 0.10 0), oklch(0.80 0.10 30), oklch(0.80 0.10 60), oklch(0.80 0.10 90), oklch(0.80 0.10 120), oklch(0.80 0.10 150), oklch(0.80 0.10 180), oklch(0.80 0.10 210), oklch(0.80 0.10 240), oklch(0.80 0.10 270), oklch(0.80 0.10 300), oklch(0.80 0.10 330), oklch(0.80 0.10 360))
 rainbow-dark = linear-gradient(to right, oklch(0.70 0.10 0), oklch(0.70 0.10 30), oklch(0.70 0.10 60), oklch(0.70 0.10 90), oklch(0.70 0.10 120), oklch(0.70 0.10 150), oklch(0.70 0.10 180), oklch(0.70 0.10 210), oklch(0.70 0.10 240), oklch(0.70 0.10 270), oklch(0.70 0.10 300), oklch(0.70 0.10 330), oklch(0.70 0.10 360))
 
@@ -36,54 +40,63 @@ define(vars)
       if length(value) > 1
         {key}: value[1]
 
+/* 配色总纲（淡黄 / 奶油纸感）
+   1. 面积层（page / card / surface）走 var(--hue) 的奶油色，默认 hue 92，彩度压在 0.02～0.033，
+      访客拖动色相滑块时整站仍会整体偏色，这是原有交互，保留。
+   2. 行走层（链接 / 图标 / 按钮字）不能跟着 hue 走：黄在 OKLCH 里天生高明度，
+      L0.70 的黄在奶油底上只有 2 点几的对比度。所以 primary 固定下沉为琥珀棕（hue 78，L 0.531），
+      亮琥珀（L 0.80）只用于填充块、选中态这类面积。
+   3. 文字四级固定为暖灰（hue 84～88），不随 hue 变化，保证任何色相下都能读。 */
 define({
-  --primary: oklch(0.70 0.14 var(--hue)) oklch(0.75 0.14 var(--hue))
-  --page-bg: oklch(0.95 0.01 var(--hue)) oklch(0.16 0.014 var(--hue))
-  --card-bg: white oklch(0.23 0.015 var(--hue))
+  --primary: oklch(0.531 0.109 78) oklch(0.834 0.117 87)
+  --page-bg: oklch(0.970 0.020 var(--hue)) oklch(0.205 0.008 var(--hue))
+  --card-bg: oklch(0.994 0.008 var(--hue)) oklch(0.241 0.010 var(--hue))
 
-  --btn-content: oklch(0.55 0.12 var(--hue)) oklch(0.75 0.1 var(--hue))
+  --btn-content: oklch(0.531 0.109 78) oklch(0.834 0.117 87)
 
-  --btn-regular-bg: oklch(0.95 0.025 var(--hue)) oklch(0.33 0.035 var(--hue))
-  --btn-regular-bg-hover: oklch(0.9 0.05 var(--hue)) oklch(0.38 0.04 var(--hue))
-  --btn-regular-bg-active: oklch(0.85 0.08 var(--hue)) oklch(0.43 0.045 var(--hue))
+  --btn-regular-bg: oklch(0.950 0.030 var(--hue)) oklch(0.300 0.020 var(--hue))
+  --btn-regular-bg-hover: oklch(0.928 0.045 var(--hue)) oklch(0.340 0.028 var(--hue))
+  --btn-regular-bg-active: oklch(0.900 0.060 var(--hue)) oklch(0.380 0.036 var(--hue))
 
-  --btn-plain-bg-hover: oklch(0.95 0.025 var(--hue)) oklch(0.30 0.035 var(--hue))
-  --btn-plain-bg-active: oklch(0.98 0.01 var(--hue)) oklch(0.27 0.025 var(--hue))
+  --btn-plain-bg-hover: oklch(0.952 0.030 var(--hue)) oklch(0.275 0.018 var(--hue))
+  --btn-plain-bg-active: oklch(0.935 0.038 var(--hue)) oklch(0.255 0.014 var(--hue))
 
-  --btn-card-bg-hover: oklch(0.98 0.005 var(--hue)) oklch(0.3 0.03 var(--hue))
-  --btn-card-bg-active: oklch(0.9 0.03 var(--hue)) oklch(0.35 0.035 var(--hue))
+  --btn-card-bg-hover: oklch(0.975 0.018 var(--hue)) oklch(0.280 0.020 var(--hue))
+  --btn-card-bg-active: oklch(0.940 0.033 var(--hue)) oklch(0.320 0.028 var(--hue))
 
   --enter-btn-bg: var(--btn-regular-bg)
   --enter-btn-bg-hover: var(--btn-regular-bg-hover)
   --enter-btn-bg-active: var(--btn-regular-bg-active)
 
-  --deep-text: oklch(0.25 0.02 var(--hue))
+  /* 亮琥珀填充上的深棕字：单值即可，亮暗两种模式都要压在 0.26 附近才够对比 */
+  --deep-text: oklch(0.264 0.026 84)
 
-  --title-active: oklch(0.6 0.1 var(--hue))
+  --title-active: oklch(0.473 0.097 76) oklch(0.900 0.090 88)
 
-  --line-divider: black(0.08) white(0.08)
+  --line-divider: warm(0.10) white(0.09)
 
-  --line-color: black(0.1) white(0.1)
-  --meta-divider: black(0.2) white(0.2)
+  --line-color: warm(0.14) white(0.11)
+  --meta-divider: warm(0.26) white(0.22)
 
   --inline-code-bg: var(--btn-regular-bg)
-  --inline-code-color: var(--btn-content)
-  --selection-bg: oklch(0.90 0.05 var(--hue)) oklch(0.40 0.08 var(--hue))
-  --codeblock-selection: oklch(0.40 0.08 var(--hue))
-  --codeblock-bg: oklch(0.17 0.015 var(--hue)) oklch(0.17 0.015 var(--hue))
-  --codeblock-topbar-bg: oklch(0.3 0.02 var(--hue)) oklch(0.12 0.015 var(--hue))
+  --inline-code-color: oklch(0.473 0.097 76) oklch(0.880 0.090 88)
+  --selection-bg: oklch(0.918 0.069 88) oklch(0.400 0.070 78)
+  --codeblock-selection: oklch(0.500 0.090 80)
+  /* 代码块是全站唯一的暗面锚点，用暖褐黑而不是冷灰，避免在奶油底旁边发蓝 */
+  --codeblock-bg: oklch(0.220 0.012 80)
+  --codeblock-topbar-bg: oklch(0.300 0.018 78) oklch(0.150 0.010 80)
 
-  --license-block-bg: black(0.03) var(--codeblock-bg)
+  --license-block-bg: warm(0.045) var(--codeblock-bg)
 
-  --link-underline: oklch(0.93 0.04 var(--hue)) oklch(0.40 0.08 var(--hue))
-  --link-hover: oklch(0.95 0.025 var(--hue)) oklch(0.40 0.08 var(--hue))
-  --link-active: oklch(0.90 0.05 var(--hue)) oklch(0.35 0.07 var(--hue))
+  --link-underline: oklch(0.900 0.060 84) oklch(0.380 0.060 78)
+  --link-hover: oklch(0.918 0.069 88) oklch(0.420 0.075 78)
+  --link-active: oklch(0.870 0.080 80) oklch(0.360 0.055 78)
 
-  --float-panel-bg: white oklch(0.19 0.015 var(--hue))
+  --float-panel-bg: oklch(0.998 0.004 var(--hue)) oklch(0.225 0.010 var(--hue))
 
-  --scrollbar-bg-light: black(0.4)
-  --scrollbar-bg-hover-light: black(0.5)
-  --scrollbar-bg-active-light: black(0.6)
+  --scrollbar-bg-light: warm(0.38)
+  --scrollbar-bg-hover-light: warm(0.50)
+  --scrollbar-bg-active-light: warm(0.62)
 
   --scrollbar-bg-dark: white(0.4)
   --scrollbar-bg-hover-dark: white(0.5)
@@ -93,46 +106,49 @@ define({
   --scrollbar-bg-hover: var(--scrollbar-bg-hover-light) var(--scrollbar-bg-hover-dark)
   --scrollbar-bg-active: var(--scrollbar-bg-active-light) var(--scrollbar-bg-active-dark)
 
+  /* 色相滑块的轨道：这里的彩虹是功能性的（提示将得到哪个色相），不要换成暖色渐变 */
   --color-selection-bar: rainbow-light rainbow-dark
 
   --display-light-icon: 1 0
   --display-dark-icon: 0 1
 
-  --admonitions-color-tip: oklch(0.7 0.14 180) oklch(0.75 0.14 180)
-  --admonitions-color-note: oklch(0.7 0.14 250) oklch(0.75 0.14 250)
-  --admonitions-color-important: oklch(0.7 0.14 310) oklch(0.75 0.14 310)
-  --admonitions-color-warning: oklch(0.7 0.14 60) oklch(0.75 0.14 60)
-  --admonitions-color-caution: oklch(0.6 0.2 25) oklch(0.65 0.2 25)
+  /* 提示色：tip 用墨绿做暖色系里的冷锚点，warning 用琥珀，caution 用砖红 */
+  --admonitions-color-tip: oklch(0.505 0.054 184) oklch(0.720 0.060 184)
+  --admonitions-color-note: oklch(0.500 0.070 245) oklch(0.740 0.070 245)
+  --admonitions-color-important: oklch(0.480 0.075 330) oklch(0.720 0.070 330)
+  --admonitions-color-warning: oklch(0.680 0.130 82) oklch(0.800 0.130 82)
+  --admonitions-color-caution: oklch(0.507 0.119 41) oklch(0.650 0.150 35)
 
-  --toc-badge-bg: oklch(0.89 0.050 var(--hue)) var(--btn-regular-bg)
-  --toc-btn-hover: oklch(0.926 0.015 var(--hue)) oklch(0.22 0.02 var(--hue))
-  --toc-btn-active: oklch(0.90 0.015 var(--hue)) oklch(0.25 0.02 var(--hue))
+  --toc-badge-bg: oklch(0.918 0.069 88) var(--btn-regular-bg)
+  --toc-btn-hover: oklch(0.952 0.030 var(--hue)) oklch(0.230 0.016 var(--hue))
+  --toc-btn-active: oklch(0.928 0.045 var(--hue)) oklch(0.260 0.020 var(--hue))
   --toc-width: calc((100vw - var(--page-width)) / 2 - 1rem)
-  --toc-item-active: oklch(0.70 0.13 var(--hue)) oklch(0.35 0.07 var(--hue))
+  --toc-item-active: oklch(0.531 0.109 78) oklch(0.834 0.117 87)
 
   /* 语义表面：raised 浮起、inset 凹陷、hover 悬停底 */
-  --surface-raised: oklch(0.985 0.006 var(--hue)) oklch(0.275 0.018 var(--hue))
-  --surface-inset: oklch(0.935 0.012 var(--hue)) oklch(0.205 0.016 var(--hue))
-  --surface-hover: oklch(0.96 0.022 var(--hue)) oklch(0.30 0.032 var(--hue))
+  --surface-raised: oklch(0.994 0.008 var(--hue)) oklch(0.275 0.012 var(--hue))
+  --surface-inset: oklch(0.940 0.033 var(--hue)) oklch(0.205 0.010 var(--hue))
+  --surface-hover: oklch(0.953 0.030 var(--hue)) oklch(0.300 0.022 var(--hue))
 
   /* 边框：替代散落的 black/10、white/15 */
-  --border-subtle: black(0.09) white(0.09)
-  --border-strong: black(0.15) white(0.16)
-  --border-accent: unquote("oklch(0.70 0.14 var(--hue) / 0.45)") unquote("oklch(0.75 0.14 var(--hue) / 0.45)")
+  --border-subtle: warm(0.14) white(0.09)
+  --border-strong: warm(0.24) white(0.16)
+  --border-accent: unquote("oklch(0.531 0.109 78 / 0.45)") unquote("oklch(0.834 0.117 87 / 0.45)")
 
-  /* 文本四级：供 .text-90/75/50/30 使用 */
-  --text-1: oklch(0.25 0.02 var(--hue)) oklch(0.97 0.008 var(--hue))
-  --text-2: oklch(0.36 0.02 var(--hue)) oklch(0.86 0.010 var(--hue))
-  --text-3: oklch(0.50 0.015 var(--hue)) oklch(0.70 0.010 var(--hue))
-  --text-4: oklch(0.62 0.012 var(--hue)) oklch(0.55 0.010 var(--hue))
+  /* 文本四级：供 .text-90/75/50/30 使用，固定暖灰不随 hue 变化 */
+  --text-1: oklch(0.264 0.026 84) oklch(0.972 0.010 87)
+  --text-2: oklch(0.394 0.035 87) oklch(0.900 0.014 87)
+  --text-3: oklch(0.503 0.041 88) oklch(0.760 0.016 88)
+  --text-4: oklch(0.606 0.039 87) oklch(0.640 0.018 88)
 })
 
 /* 阴影必须写在 :root 独立块里：define() 用 length(value) > 1 判断亮暗双值，
-   含逗号的多值阴影会被 Stylus 当成列表，从而误判成「亮色 + 暗色」两个值。 */
+   含逗号的多值阴影会被 Stylus 当成列表，从而误判成「亮色 + 暗色」两个值。
+   亮色阴影用暖棕着色，纯黑阴影压在奶油底上会显脏。 */
 :root
-  --shadow-1 0 1px 2px black(0.05), 0 1px 3px black(0.04)
-  --shadow-2 0 6px 18px -6px black(0.10), 0 2px 6px -3px black(0.06)
-  --shadow-3 0 20px 44px -16px black(0.18)
+  --shadow-1 0 1px 2px warm(0.06), 0 1px 3px warm(0.05)
+  --shadow-2 0 6px 18px -6px warm(0.12), 0 2px 6px -3px warm(0.07)
+  --shadow-3 0 20px 44px -16px warm(0.20)
 
 :root.dark
   --shadow-1 inset 0 1px 0 white(0.04)

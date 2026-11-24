@@ -19,8 +19,9 @@ export function pluginLanguageBadge() {
         font-size: 0.75rem;
         font-weight: bold;
         text-transform: uppercase;
-        color: oklch(0.75 0.1 var(--hue));
-        background: oklch(0.33 0.035 var(--hue));
+        /* 代码块恒为暗面，角标用暖琥珀而非 var(--hue)：淡黄配色下 hue 92 会变成芥末黄 */
+        color: oklch(0.86 0.10 85);
+        background: oklch(0.34 0.030 78);
         border-radius: 0.5rem;
         pointer-events: none;
         transition: opacity 0.3s;

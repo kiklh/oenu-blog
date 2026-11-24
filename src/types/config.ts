@@ -122,4 +122,12 @@ export type CommentConfig = {
 	lang: string;
 	/** 加载失败时的兜底链接 */
 	discussionsUrl?: string;
+	/**
+	 * 自定义主题 CSS，路径相对站点根目录（如 "/giscus/cream-light.css"）。
+	 * giscus 的 iframe 运行在 giscus.app 上，所以必须是绝对 URL，且服务端要回
+	 * Access-Control-Allow-Origin（见 public/_headers）。
+	 * 留空则退回 giscus 内置的 light/dark 主题。
+	 */
+	themeLight?: string;
+	themeDark?: string;
 };

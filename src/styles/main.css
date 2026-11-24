@@ -63,7 +63,7 @@
     .btn-regular {
         @apply transition flex items-center justify-center bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
         rounded-[var(--radius-md)] border border-[var(--border-subtle)]
-        text-[var(--btn-content)] dark:text-white/75
+        text-[var(--btn-content)] dark:text-[oklch(0.94_0.015_87)]
     }
 
     .link-underline {
@@ -146,13 +146,14 @@
         before:font-medium before:first-of-type:hidden before:transition
     }
 
+    /* 代码块上的浮动按钮：底是暖褐黑，按钮用暖棕而不是中性灰，避免在奶油配色里发蓝 */
     .btn-regular-dark {
         @apply flex items-center justify-center
-        bg-[oklch(0.45_0.01_var(--hue))] hover:bg-[oklch(0.50_0.01_var(--hue))] active:bg-[oklch(0.55_0.01_var(--hue))]
-        dark:bg-[oklch(0.30_0.02_var(--hue))] dark:hover:bg-[oklch(0.35_0.03_var(--hue))] dark:active:bg-[oklch(0.40_0.03_var(--hue))]
+        bg-[oklch(0.44_0.035_78)] hover:bg-[oklch(0.48_0.040_78)] active:bg-[oklch(0.52_0.045_78)]
+        dark:bg-[oklch(0.30_0.025_78)] dark:hover:bg-[oklch(0.34_0.030_78)] dark:active:bg-[oklch(0.38_0.035_78)]
     }
     .btn-regular-dark.success {
-        @apply bg-[oklch(0.75_0.14_var(--hue))] dark:bg-[oklch(0.75_0.14_var(--hue))]
+        @apply bg-[oklch(0.82_0.13_84)] dark:bg-[oklch(0.82_0.13_84)]
     }
 
     /* 讨论区：预占高度 + 骨架屏，避免 giscus iframe 到位时卡片从 0 高度暴涨（CLS） */

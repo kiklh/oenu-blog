@@ -149,9 +149,12 @@ const bannerOffset =
 
 		{isPostRoute && (
 			<>
-				{/* 评论区是跨域 iframe，提前建连能省掉首次的 DNS + TCP + TLS */}
+				{/* 评论区是跨域 iframe，提前建连能省掉首次的 DNS + TCP + TLS。
+				    giscus.app 同时承载 client.js 与 iframe 本身，一条 preconnect 覆盖两跳；
+				    头像域名是纯图片请求，不需要 crossorigin。 */}
 				<link rel="preconnect" href="https://giscus.app" crossorigin />
 				<link rel="dns-prefetch" href="https://giscus.app" />
+				<link rel="preconnect" href="https://avatars.githubusercontent.com" />
 				<link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
 			</>
 		)}
